@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enhancedscaling
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: enhancedscaling
+  template:
+    metadata:
+      labels:
+        name: enhancedscaling
+    spec:
+      serviceAccountName: enhancedscaling
+      containers:
+        - name: enhancedscaling
+          # Replace this with the built image name
+          image: REPLACE_IMAGE
+          command:
+          - enhancedscaling
+          imagePullPolicy: Always
+          env:
+            - name: WATCH_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: OPERATOR_NAME
+              value: "enhancedscaling"
